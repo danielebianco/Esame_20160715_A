@@ -90,17 +90,4 @@ public class FlightDAO {
 		}
 	}
 
-//	public static void main(String args[]) {
-//		FlightDAO dao = new FlightDAO();
-//
-//		List<Airline> airlines = dao.getAllAirlines();
-//		System.out.println(airlines);
-//
-//		List<Airport> airports = dao.getAllAirports();
-//		System.out.println(airports);
-//
-//		List<Route> routes = dao.getAllRoutes();
-//		System.out.println(routes);
-//	}
-
 }
