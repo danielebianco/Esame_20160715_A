@@ -84,20 +84,6 @@ public class Model {
 		return result;
 	}
 	
-	
-	public Airport fiumicinoLast(int distanzaMax) {
-		
-		if(grafo == null)
-			this.creaGrafo(distanzaMax);
-		
-		for(Airport a : grafo.vertexSet()) {
-			if(a.getAirportId() == 1555) {
-				return mostraRaggiungibili(a).get(mostraRaggiungibili(a).size()-1);			 
-			}
-		}
-		return null;
-	}
-	
 	public List<Airline> getAirlines() {
 		return airlines;
 	}

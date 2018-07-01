@@ -51,13 +51,10 @@ public class FlightController {
 			
 			for(Airport airport : model.getGrafo().vertexSet()) {
 				List<Airport> prova = model.mostraRaggiungibili(airport);
-				if(prova.size() == model.getGrafo().edgeSet().size()) {
-					if(model.getGrafo().edgeSet().size()==0) {
-						route = true;
-					}
-					else {
-						rag = true;
-					}
+				if(model.getGrafo().edgeSet().size()==0) {
+					route = true;
+				} else if(prova.size() == (model.getGrafo().vertexSet().size()-1)) {
+					rag = true;
 				}
 			}
 			
