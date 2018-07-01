@@ -30,7 +30,7 @@ public class Model {
 		
 	}
 
-	public void creaGrafo(int distanzaMax) {
+	public void creaGrafo(int distanzaMax) { // VERSIONE B: int distanzaMin
 		this.grafo = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 		Graphs.addAllVertices(grafo, airports);
 		for (Route f : dao.getAllRoutes(airlineIdMap)) {
@@ -40,8 +40,8 @@ public class Model {
 			if(ar != null && a1 != null && a2 != null && !a1.equals(a2)) {
 				double distanza = LatLngTool.distance(new LatLng(a1.getLatitude(), a1.getLongitude()),
 						new LatLng(a2.getLatitude(), a2.getLongitude()), LengthUnit.KILOMETER);
-				if(distanza < distanzaMax) {
-					double peso = distanza/800;
+				if(distanza < distanzaMax) { // VERSIONE B: distanza > distanzaMin
+					double peso = distanza/800; // VERSIONE B: peso = distanza/900 
 					Graphs.addEdge(grafo, a1, a2, peso);
 				}
 			}
@@ -65,6 +65,25 @@ public class Model {
 
 		return visitati;
 	}
+	
+	// VERSIONE B: mostraNonRaggPiuVicino
+	public Airport mostraPiuLontano() { 
+		Airport fiumicino = this.airportIdMap.get(1555); // VERSIONE B: LA = airportIdMap.get(3484)
+		Airport result = null;
+		double distanzaMax = Double.MIN_VALUE; // VERSIONE B: distanzaMin = Double.MAX_VALUE;
+		// VERSIONE B: creo List<Airport> nonRagg e rimuovo gli oggetti della lista raggiungibili
+		//             e sostituisco LA a Fiumicino 
+		for (Airport a : this.mostraRaggiungibili(fiumicino)) {
+			double distanzaDaFM = LatLngTool.distance(new LatLng(fiumicino.getLatitude(), fiumicino.getLongitude()),
+					new LatLng(a.getLatitude(), a.getLongitude()), LengthUnit.KILOMETER);
+			if(distanzaDaFM > distanzaMax) { // VERSIONE B: distanzaDaLA < distanzaMin
+				distanzaMax = distanzaDaFM;  // VERSIONE B: distanzaMin = distanzaDaLA
+				result = a;
+			}			
+		}
+		return result;
+	}
+	
 	
 	public Airport fiumicinoLast(int distanzaMax) {
 		

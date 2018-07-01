@@ -34,6 +34,8 @@ public class FlightController {
 	@FXML
 	void doCreaGrafo(ActionEvent event) {
 		
+		// VERSIONE B: apportare modifiche opportune per l'output (LA, !ragg più vicino)
+		
 		txtResult.clear();
 		
 		try {
@@ -44,20 +46,19 @@ public class FlightController {
 			int distanzaMax = Integer.parseInt(this.txtDistanzaInput.getText());
 			this.model.creaGrafo(distanzaMax);
 			
-			this.txtResult.appendText(String.format("GOOD!!\n\nGrafo creato: %d vertici %d archi\n",
+			this.txtResult.appendText(String.format("Grafo creato: %d vertici %d archi\n",
 					model.getGrafo().vertexSet().size(), model.getGrafo().edgeSet().size()));
 			
 			for(Airport airport : model.getGrafo().vertexSet()) {
 				List<Airport> prova = model.mostraRaggiungibili(airport);
-					if(prova.size() == model.getGrafo().edgeSet().size()) {
-						if(model.getGrafo().edgeSet().size()==0) {
-							route = true;
-						}
-						else {
-							rag = true;
-						}
-						
+				if(prova.size() == model.getGrafo().edgeSet().size()) {
+					if(model.getGrafo().edgeSet().size()==0) {
+						route = true;
 					}
+					else {
+						rag = true;
+					}
+				}
 			}
 			
 			if(rag == true) {
@@ -73,14 +74,18 @@ public class FlightController {
 				List<Airport> raggiungibili = model.mostraRaggiungibili(fiumicino);
 				if(raggiungibili.isEmpty()) {
 		    		this.txtResult.appendText("\nLe rotte per Fiumicino non sono presenti in questo grafo.\n");
-		    	} else {
+		    	} else {			    	
 			    	txtResult.appendText("\nL'aeroporto più lontano raggiungibile da " + fiumicino +
-			    			" è: " + raggiungibili.get(raggiungibili.size()-1));
+			    			" è: " + model.mostraPiuLontano().toString() + "\n");
+			    	this.txtResult.appendText("\nLista raggiungibili: \n");
+			    	for(Airport r : raggiungibili) {
+			    		this.txtResult.appendText("- " + r + "\n");
+			    	}
 		    	}
 			}
 									
 		} catch (RuntimeException e) {
-			this.txtResult.setText("\n@!?@!?@!?@!?@!?@!? -> Errore: input non valido.\n");
+			this.txtResult.setText("Errore: input non valido...\n");
 		}
 	}
 
